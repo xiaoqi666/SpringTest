@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!--  bean元素:使用该元素描述需要spring容器管理的对象
+            name属性:给被管理的对象起名字,获得对象时根据该名称获得对象
+            class属性:被管理对象的完整类名
+            id属性:与name属性一模一样(id为老属性,id行业规则:名称不可重复,不能使用特殊字符 )
+            结论:尽量使用name属性
+            scope属性:(在整合struts2时,action要配置成多例)
+                -singleton单例对象(默认,运行时便会创建一个对象),
+                -prototype多例原型(每次获得时才会创建,而且每次都是新的对象)
+                -request:web环境下,对象与request生命周期一直(一般不用)
+                -session:web环境下,对象与session生命周期一直(一般不用)
+     -->
+    <!-- 讲user对象交给spring容器管理 -->
+    <!--
+        创建对象,方式1:空参构造创建
+    -->
+    <bean name="user" class="com.xiaoqi.domain.User"
+          init-method="init" destroy-method="destroy"
+    ></bean>
+
+    <!--
+      创建对象,方式2:静态工厂创建
+      调用UserFactory的静态方法createUser()创建User对象
+    -->
+
+    <bean name="user2" class="com.xiaoqi.create.UserFactory" factory-method="createUser"></bean>
+
+    <!--
+        创建对象,方式3:动态实例工厂创建User对象
+        调用UserFactory对象的方法createUser2()创建User对象
+    -->
+    <bean name="userFactory" class="com.xiaoqi.create.UserFactory"></bean>
+    <!-- 导入其他的spring-config文件 -->
+    <import resource="com/xiaoqi/test/spring-config.xml"></import>
+</beans>
